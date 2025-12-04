@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mercatto</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&family=Poppins:wght@100..900&display=swap" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLMDJ/cnMkzU9255pXmS/5S8Fk7C50T4zC2x/5M7n+gV5k8Yp9fT9g2v7r9N0fO2g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'nalo-yellow': '#e4d90e',
+                        'nalo-green': '#e4d90e', 
+                        'primary': '#e4d90e', 
+                    },
+                    fontFamily: {
+                        'sans': ['Montserrat', 'sans-serif'], 
+                        'poppins': ['Poppins', 'sans-serif'], 
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        .mobile-search-container {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out;
+        }.mobile-search-container.show { 
+            max-height: 80px; 
+        }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f7f7f7;
+        }
+        h1, h2, h3, h4, h5, h6, .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .hover-shadow-lg {
+            transition: box-shadow 0.3s ease;
+        }
+        .hover-shadow-lg:hover {
+            box-shadow: 0 1rem 3rem rgba(0,0,0,.175)!important;
+        }
+
+        .view-section {
+            display: none; 
+        }
+        .active-view {
+            display: block; 
+        }
+
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;  
+            scrollbar-width: none;  
+        }
+        .category-card {
+            min-width: 9rem; 
+        }
+        
+        #offcanvasNavbar {
+            transform: translateX(100%); 
+            transition: transform 0.3s ease-in-out;
+        }
+        #offcanvasNavbar.show {
+            transform: translateX(0); 
+        }
+        .offcanvas-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1040;
+            width: 100vw;
+            height: 100vh;
+            background-color: #000;
+            opacity: 0;
+            transition: opacity 0.15s linear;
+            pointer-events: none; 
+        }
+        .offcanvas-backdrop.show {
+            opacity: 0.5;
+            pointer-events: auto;
+        }
+        
+        .active-nav {
+            font-weight: 600; 
+            color: #e4d90e; 
+        }
+        
+        .banner-carousel {
+            scroll-snap-type: x mandatory; 
+        }
+        .banner-item {
+            scroll-snap-align: start;
+            flex: 0 0 100%; 
+        }
+
+    </style>
+</head>
+<body class="min-h-screen antialised"> 
+    <div class="relative flex min-h-screen w-full flex-col">
+        
+        <header class="sticky top-0 z-50 bg-nalo-green shadow-md">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-nalo-green">
+                
+                <div class="flex h-20 items-center justify-between">
+                    
+                    <div class="flex items-center gap-2 flex-shrink-0">
+                        <span class="material-symbols-outlined text-3xl text-white">storefront</span>
+                        <span class="text-xl font-poppins font-semibold text-white">Mercatto</span>
+                    </div>
+
+                    <div id="mobileSearchWrapper" class="md:hidden bg-white border-t border-gray-200 mobile-search-container">
+                        <div class="p-3">
+                            <div class="relative w-full">
+                                <input type="text" id="searchInputMobile" class="w-full px-4 py-2 border border-gray-300 rounded-full focus:ring-nalo-green focus:border-nalo-green placeholder-gray-500" placeholder="¿Que estas buscando hoy?">
+                                <button id="searchNearMeBtnMobile" class="absolute inset-y-0 right-0 flex items-center px-4 text-gray-700 rounded-full hover:text-nalo-green transition" title="Buscar cerca de mi">
+                                    <i class="fa-solid fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center space-x-4 flex-shrink-0">
+                        <button type="button" class="hidden md:flex items-center px-4 py-2 bg-white text-nalo-green font-semibold rounded-full shadow-md hover:bg-gray-100 transition" onclick="showModal('authModal')">
+                            <i class="fa-solid fa-user-circle mr-2"></i>
+                            Iniciar Sesión
+                        </button>
+                        
+                        <button class="md:hidden text-white" onclick="toggleOffcanvas('offcanvasNavbar')">
+                            <i class="fa-solid fa-bars text-2xl"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white shadow-inner hidden md:block border-b border-gray-100">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <nav class="flex h-12 items-center justify-center">
+                        <ul class="flex items-center space-x-6">
+                            <li><a class="nav-link text-gray-600 hover:text-nalo-green font-medium active-nav" href="#" data-page="home">Inicio</a></li>
+                            <li><a class="nav-link text-gray-600 hover:text-nalo-green font-medium" href="#" data-page="about">Acerca de</a></li>
+                            
+                            <li class="relative group">
+                                <a class="text-gray-600 hover:text-nalo-green font-medium cursor-pointer">Categorías <i class="fa-solid fa-angle-down text-xs ml-1"></i></a>
+                                <ul class="absolute z-10 hidden group-hover:block w-48 bg-white shadow-xl rounded-lg py-2 mt-2 border border-gray-100">
+                                    <li><a class="block px-4 py-2 text-gray-700 hover:bg-gray-50" href="#" data-page="search" data-category="Artesanias">Artesanías y manualidades</a></li>
+                                    <li><a class="block px-4 py-2 text-gray-700 hover:bg-gray-50" href="#" data-page="search" data-category="Estilistas">Estilistas</a></li>
+                                    <li><a class="block px-4 py-2 text-gray-700 hover:bg-gray-50" href="#" data-page="search" data-category="Moda">Moda y accesorios</a></li>
+                                    <li><a class="block px-4 py-2 text-gray-700 hover:bg-gray-50" href="#" data-page="search" data-category="Cafes">Cafés y arte</a></li>
+                                    <li><a class="block px-4 py-2 text-gray-700 hover:bg-gray-50" data-page="search" data-category="Digital">Digital</a></li>
+                                    <li><a class="block px-4 py-2 text-gray-700 hover:bg-gray-50" data-page="search" data-category="ParaLlevar">Para llevar</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <a href="#" class="text-gray-600 hover:text-nalo-green font-medium">¡Vende en Mercatto!</a>
+                    </nav>
+                </div>
+            </div>
+            
+            <div class="md:hidden bg-white p-3 border-t border-gray-200">
+                 <div class="relative w-full">
+                    <input type="text" id="searchInputMobile" class="w-full px-4 py-2 border border-gray-300 rounded-full focus:ring-nalo-green focus:border-nalo-green placeholder-gray-500" placeholder="¿Que estas buscando hoy?">
+                    <button id="searchNearMeBtnMobile" class="absolute inset-y-0 right-0 flex items-center px-4 text-gray-700 rounded-full hover:text-nalo-green transition" title="Buscar cerca de mi">
+                        <i class="fa-solid fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        
+        <section id="featured-carousel" class="w-full py-4 bg-white shadow-sm">
+            <div class="max-w-7xl mx-auto px-0 sm:px-6 lg:px-8 relative">
+                
+                <div id="carouselTrack" class="flex overflow-x-hidden banner-carousel rounded-lg shadow-xl relative">
+                    
+                     <a href="#" class="banner-item cursor-pointer" onclick="alertMessage('Redirigiendo a la promocion velas...'); return false;">
+                         <img src="img/tiendavelas.jpg" alt="Promoción de velas" class="w-full object-cover rounded-lg" style="height: 350px;">
+                    </a>
+
+                    <a href="#" class="banner-item cursor-pointer" onclick="alertMessage('Redirigiendo a la promoción de Artesanías...'); return false;">
+                         <img src="img/artesanias jarrones.jpg" alt="Promoción de Artesanías de Emprendimiento Local" class="w-full object-cover rounded-lg" style="height: 350px;">
+                    </a>
+
+                    <a href="#" class="banner-item cursor-pointer" onclick="alertMessage('Redirigiendo a la promoción de Servicios Digitales...'); return false;">
+                         <img src="img/serviciodigital.jpg" alt="Promoción de Servicios Digitales" class="w-full object-cover rounded-lg" style="height: 350px;">
+                    </a>
+                    
+                    <a href="#" class="banner-item cursor-pointer" onclick="alertMessage('Redirigiendo a cafe local...'); return false;">
+                         <img src="img/cafe-local.png" alt="Cafe local" class="w-full object-cover rounded-lg" style="height: 350px;">
+                    </a>
+
+                     <a href="#" class="banner-item cursor-pointer" onclick="alertMessage('Redirigiendo a Ropa secondhandclothescali...'); return false;">
+                         <img src="img/ropasecondhand.png" alt="ropasecondhand" class="w-full object-cover rounded-lg" style="height: 350px;">
+                    </a>
+
+                </div>
+                
+                <button onclick="prevBanner()" class="absolute left-0 top-1/2 transform -translate-y-1/2 ml-2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition z-10">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+                <button onclick="nextBanner()" class="absolute right-0 top-1/2 transform -translate-y-1/2 mr-2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition z-10">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+                
+                <div id="banner-dots" class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+                    </div>
+
+            </div>
+        </section>
+
+        <div id="offcanvasNavbar" class="fixed top-0 right-0 w-64 h-full bg-white shadow-2xl z-50 p-4 transform translate-x-full transition-transform duration-300">
+            <div class="flex justify-between items-center pb-4 border-b border-gray-100 mb-4 bg-nalo-green -m-4 p-4 rounded-t-lg">
+                <h5 class="text-xl font-poppins font-semibold text-white">Mercatto Menú</h5>
+                <button type="button" class="text-white" onclick="toggleOffcanvas('offcanvasNavbar')">
+                    <i class="fa-solid fa-xmark text-2xl"></i>
+                </button>
+            </div>
+
+            <ul class="space-y-3">
+                <li><a class="nav-link block text-gray-700 hover:text-nalo-green font-medium py-1" href="#" data-page="home" onclick="toggleOffcanvas('offcanvasNavbar')">Inicio</a></li>
+                <li><a class="nav-link block text-gray-700 hover:text-nalo-green font-medium py-1" href="#" data-page="about" onclick="toggleOffcanvas('offcanvasNavbar')">Acerca de</a></li>
+            </ul>
+
+            <div class="mt-6 pt-3 border-t border-gray-200">
+                <p class="text-sm text-gray-600 font-poppins font-semibold mb-2">Categorías:</p>
+                <ul class="space-y-1">
+                    <li><a class="block text-gray-600 hover:text-nalo-green ml-3" href="#" data-page="search" data-category="Artesanias" onclick="toggleOffcanvas('offcanvasNavbar')">Artesanías</a></li>
+                    <li><a class="block text-gray-600 hover:text-nalo-green ml-3" href="#" data-page="search" data-category="Moda" onclick="toggleOffcanvas('offcanvasNavbar')">Moda</a></li>
+                    <li><a class="block text-gray-600 hover:text-nalo-green ml-3" href="#" data-page="search" data-category="Digital" onclick="toggleOffcanvas('offcanvasNavbar')">Digital</a></li>
+                </ul>
+            </div>
+
+            <button type="button" class="w-full mt-8 flex items-center justify-center px-4 py-3 bg-nalo-green text-white font-semibold rounded-full shadow-lg hover:bg-nalo-green/90 transition" onclick="showModal('authModal'); toggleOffcanvas('offcanvasNavbar')">
+                <i class="fa-solid fa-user-circle mr-2"></i>
+                Iniciar Sesión / Registro
+            </button>
+        </div>
+        <div id="offcanvas-backdrop" class="offcanvas-backdrop"></div>
+
+        <main class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 w-full">
+
+            <section id="categories-carousel" class="w-full py-4 bg-white border-b border-gray-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 justify-center">
+                <h2 class="text-xl font-poppins font-bold text-gray-800 mb-4">Explora Categorías Populares</h2>
+                <div class="flex space-x-4 overflow-x-scroll scrollbar-hide pb-2">
+                    
+                    <a href="#" class="category-card flex flex-col items-center p-2 rounded-lg cursor-pointer transition transform hover:scale-105" data-category="Cafes">
+                        <div class="w-20 h-20 bg-primary/80 rounded-full flex items-center justify-center shadow-lg mb-2">
+                            <img src="img/cafe-local.png" class="w-full h-full object-cover rounded-full">
+                        </div>
+                        <span class="text-sm font-medium text-gray-700">Café</span>
+                    </a>
+                    
+                    <a href="#" class="category-card flex flex-col items-center p-2 rounded-lg cursor-pointer transition transform hover:scale-105" data-category="Moda">
+                        <div class="w-20 h-20 bg-primary/80 rounded-full flex items-center justify-center shadow-lg mb-2">
+                            <img src="img/ropasecondhand.png" class="w-full h-full object-cover rounded-full">
+                        </div>
+                        <span class="text-sm font-medium text-gray-700">Moda</span>
+                    </a>
+                    
+                    <a href="#" class="category-card flex flex-col items-center p-2 rounded-lg cursor-pointer transition transform hover:scale-105" data-category="Artesanias">
+                        <div class="w-20 h-20 bg-primary/80 rounded-full flex items-center justify-center shadow-lg mb-2">
+                            <img src="img/artesanias jarrones.jpg" class="w-full h-full object-cover rounded-full">
+                        </div>
+                        <span class="text-sm font-medium text-gray-700">Artesanías</span>
+                    </a>
+                    
+                    <a href="#" class="category-card flex flex-col items-center p-2 rounded-lg cursor-pointer transition transform hover:scale-105" data-category="Digital">
+                        <div class="w-20 h-20 bg-primary/80 rounded-full flex items-center justify-center shadow-lg mb-2">
+                            <img src="img/serviciodigital.jpg" class="w-full h-full object-cover rounded-full">
+                        </div>
+                        <span class="text-sm font-medium text-gray-700">Digital</span>
+                    </a>
+                    
+                    <a href="#" class="category-card flex flex-col items-center p-2 rounded-lg cursor-pointer transition transform hover:scale-105" data-category="Estilistas">
+                        <div class="w-20 h-20 bg-primary/80 rounded-full flex items-center justify-center shadow-lg mb-2">
+                            <img src="img/estilista.jpg" class="w-full h-full object-cover rounded-full">
+                        </div>
+                        <span class="text-sm font-medium text-gray-700">Estilistas</span>
+                    </a>
+                    
+                    <a href="#" class="category-card flex flex-col items-center p-2 rounded-lg cursor-pointer transition transform hover:scale-105" data-category="Detalle">
+                        <div class="w-20 h-20 bg-primary/80 rounded-full flex items-center justify-center shadow-lg mb-2">
+                            <img src="img/tiendavelas.jpg" class="w-full h-full object-cover rounded-full">
+                        </div>
+                        <span class="text-sm font-medium text-gray-700">Detalle perfecto</span>
+                    </a>
+                    
+                </div>
+            </div>
+        </section>
+
+
+                <section class="bg-card-light dark:bg-card-dark py-16 sm:py-24">
+                    <div class="container mx-auto px-4">
+                        <div class="mx-auto flex max-w-4xl flex-col items-center gap-12 text-center">
+                            <div class="flex flex-col gap-4">
+                                <h2 class="text-3xl font-bold tracking-tight">Como funciona</h2>
+                                <p class="text-lg text-text-secondary-light dark:text-text-secondary-dark">Encontrar y apoyar negocios locales es tan fácil como contar hasta tres.</p>
+                            </div>
+                            <div class="grid w-full grid-cols-1 gap-8 sm:grid-cols-3">
+                                <div class="flex flex-col items-center gap-4">
+                                    <div class="flex h-16 w-16 items-center justify-center rounded-full bg-primary/20 text-primary">
+                                        <span class="material-symbols-outlined text-3xl">Buscar</span>
+                                    </div>
+                                    <div class="flex flex-col gap-1">
+                                        <h3 class="text-lg font-bold">Buca de acuerdo a tus necesidades</h3>
+                                        <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">Utilice nuestra búsqueda para encontrar exactamente lo que está buscando, justo en su área.</p>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col items-center gap-4">
+                                    <div class="flex h-16 w-16 items-center justify-center rounded-full bg-primary/20 text-primary">
+                                        <span class="material-symbols-outlined text-3xl">Explora</span>
+                                    </div>
+                                    <div class="flex flex-col gap-1">
+                                        <h3 class="text-lg font-bold">Explora opciones locales</h3>
+                                        <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">Explore una lista seleccionada de los mejores lugares locales, completa con reseñas.</p>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col items-center gap-4">
+                                    <div class="flex h-16 w-16 items-center justify-center rounded-full bg-primary/20 text-primary">
+                                        <span class="material-symbols-outlined text-3xl">favorito</span>
+                                    </div>
+                                    <div class="flex flex-col gap-1">
+                                        <h3 class="text-lg font-bold">Apoyar a las pequeñas empresas</h3>
+                                        <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">Visite una tienda, reserve un servicio y haga una diferencia en su comunidad.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </section>
+
+
+            <section id="about-view" class="view-section">
+                <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                    <h1 class="text-3xl font-poppins font-bold text-nalo-green mb-4">¿Qué es Mercatto?</h1>
+                    <p class="text-lg text-gray-600 mb-6">Somos la plataforma de conexión vecinal que acerca tu comunidad. Nacimos con la convicción de que el corazón de una ciudad reside en sus barrios. Mercatto es la herramienta digital que conecta de forma simple y efectiva a los negocios locales y emprendimientos con la comunidad, fomentando el consumo local y construyendo un ecosistema de crecimiento mutuo y sostenible.</p>
+                    
+                    <h3 class="text-xl font-poppins font-semibold mt-6">Nuestra Misión</h3>
+                    <p class="text-gray-700">Facilitar una herramienta de geolocalización simple y efectiva para que los vecinos puedan descubrir fácilmente los talentos y servicios que existen a pocos metros de su hogar.</p>
+
+                    <h3 class="text-xl font-poppins font-semibold mt-6">¿Cómo funciona?</h3>
+                    <ul class="list-none space-y-3 mt-3">
+                        <li class="flex items-start">
+                            <strong class="text-nalo-green font-poppins mr-2">
+                                <i class="fa-solid fa-user-tie text-xl mr-2"></i>Para Emprendedores:
+                            </strong> 
+                            <span class="text-gray-700">Regístrate, ubica tu negocio en el mapa y sube tu perfil de productos o servicios.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <strong class="text-nalo-green font-poppins mr-2">
+                                <i class="fa-solid fa-map-location-dot text-xl mr-2"></i>Para Vecinos:
+                            </strong>
+                            <span class="text-gray-700">Busca por categoría o distancia, lee opiniones y contacta directamente al emprendedor.</span>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <div id="messageBox" class="fixed top-0 left-1/2 -translate-x-1/2 mt-4 z-[1060]" style="display: none;">
+                <div id="messageToast" class="bg-green-500 text-white p-3 rounded-lg shadow-lg flex items-center justify-between" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-body mr-4"></div>
+                    <button type="button" class="text-white opacity-80 hover:opacity-100 transition" onclick="document.getElementById('messageBox').style.display='none'" aria-label="Close">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+            </div>
+
+        </main>
+        
+        <footer class="bg-white border-t border-gray-100">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                <div class="grid grid-cols-2 gap-8 md:grid-cols-4">
+                    <div class="col-span-2 md:col-span-1">
+                        <div class="flex flex-col gap-4">
+                            <div class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-primary text-2xl">storefront</span>
+                                <h2 class="text-xl font-poppins font-semibold text-gray-800">Mercatto</h2>
+                            </div>
+                            <p class="text-sm text-gray-600">Conectando emprendimientos locales con la comunidad.</p>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-poppins font-semibold text-gray-800 mb-4">Descubre</h3>
+                        <ul class="space-y-3">
+                            <li><a class="text-sm text-gray-600 hover:text-primary transition" href="#" data-page="about">Acerca de Mercatto</a></li>
+                            <li><a class="text-sm text-gray-600 hover:text-primary transition" href="#">Cómo Funciona</a></li>
+                            <li><a class="text-sm text-gray-600 hover:text-primary transition" href="#">Categorías Populares</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-poppins font-semibold text-gray-800 mb-4">Soporte</h3>
+                        <ul class="space-y-3">
+                            <li><a class="text-sm text-gray-600 hover:text-primary transition" href="#">Preguntas Frecuentes</a></li>
+                            <li><a class="text-sm text-gray-600 hover:text-primary transition" href="#">Contacto</a></li>
+                            <li><a class="text-sm text-gray-600 hover:text-primary transition" href="#">Política de Privacidad</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-poppins font-semibold text-gray-800 mb-4">Comunidad</h3>
+                        <ul class="space-y-3">
+                            <li><a class="text-sm text-gray-600 hover:text-primary transition" href="#">¡Vende con nosotros!</a></li>
+                            <li><a class="text-sm text-gray-600 hover:text-primary transition" href="#">Blog</a></li>
+                            <li><a class="text-sm text-gray-600 hover:text-primary transition" href="#">Únete al equipo</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="mt-12 border-t border-gray-200 pt-8 flex flex-col sm:flex-row items-center justify-between">
+                    <p class="text-sm text-gray-600">© 2024 Mercatto. Todos los derechos reservados.</p>
+                    <div class="flex gap-4 mt-4 sm:mt-0">
+                        <a class="text-gray-500 hover:text-primary transition" href="#" aria-label="Facebook">
+                            <i class="fa-brands fa-facebook-f text-xl"></i>
+                        </a>
+                        <a class="text-gray-500 hover:text-primary transition" href="#" aria-label="Instagram">
+                            <i class="fa-brands fa-instagram text-xl"></i>
+                        </a>
+                        <a class="text-gray-500 hover:text-primary transition" href="#" aria-label="Twitter">
+                            <i class="fa-brands fa-x-twitter text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <div id="authModal" class="fixed inset-0 bg-black bg-opacity-50 z-[1050] hidden items-center justify-center p-4" onclick="closeModalOnBackdrop(event)">
+            <div class="bg-white rounded-xl shadow-2xl w-full max-w-md overflow-hidden" onclick="event.stopPropagation()">
+                
+                <div class="bg-nalo-green text-white p-4 flex justify-between items-center">
+                    <h5 class="text-xl font-poppins font-semibold">Acceso a Mercatto</h5>
+                    <button type="button" class="text-white text-lg opacity-80 hover:opacity-100" onclick="hideModal('authModal')" aria-label="Close">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <div class="p-6">
+                    <div class="flex border-b border-gray-200 mb-6" id="authTab">
+                        <button class="tab-button flex-1 py-3 text-center border-b-2 font-medium text-gray-500 active-tab" data-target="login-panel" onclick="switchAuthTab(this)">
+                            <i class="fa-solid fa-arrow-right-to-bracket mr-1"></i> Iniciar Sesión
+                        </button>
+                        <button class="tab-button flex-1 py-3 text-center border-b-2 font-medium text-gray-500 hover:text-gray-700" data-target="register-panel" onclick="switchAuthTab(this)">
+                            <i class="fa-solid fa-user-plus mr-1"></i> Registrarse
+                        </button>
+                    </div>
+
+                    <div id="authTabContent">
+                        <div id="login-panel" class="tab-panel active-panel">
+                            <form onsubmit="event.preventDefault(); handleAuth('login')">
+                                <div class="mb-4">
+                                    <label for="loginEmail" class="block text-sm font-medium text-gray-700 mb-1">Correo Electrónico</label>
+                                    <input type="email" class="w-full px-4 py-2 border border-gray-300 rounded-full focus:ring-nalo-green focus:border-nalo-green" id="loginEmail" required>
+                                </div>
+                                <div class="mb-6">
+                                    <label for="loginPassword" class="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
+                                    <input type="password" class="w-full px-4 py-2 border border-gray-300 rounded-full focus:ring-nalo-green focus:border-nalo-green" id="loginPassword" required>
+                                </div>
+                                
+                                <button type="submit" class="w-full py-3 bg-nalo-green text-white font-semibold rounded-full shadow-md hover:bg-nalo-green/90 transition">Entrar</button>
+                                
+                                <p class="text-center mt-4 text-sm text-gray-500"><a href="#" class="hover:underline" onclick="alertMessage('Enlace para restablecer contraseña.')">¿Olvidaste tu contraseña?</a></p>
+                            </form>
+                        </div>
+                        
+                        <div id="register-panel" class="tab-panel hidden">
+                            <form onsubmit="event.preventDefault(); handleAuth('register')">
+                                <div class="mb-4">
+                                    <label for="registerName" class="block text-sm font-medium text-gray-700 mb-1">Nombre Completo</label>
+                                    <input type="text" class="w-full px-4 py-2 border border-gray-300 rounded-full focus:ring-nalo-green focus:border-nalo-green" id="registerName" required>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="registerEmail" class="block text-sm font-medium text-gray-700 mb-1">Correo Electrónico</label>
+                                    <input type="email" class="w-full px-4 py-2 border border-gray-300 rounded-full focus:ring-nalo-green focus:border-nalo-green" id="registerEmail" required>
+                                </div>
+                                <div class="mb-6">
+                                    <label for="registerPassword" class="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
+                                    <input type="password" class="w-full px-4 py-2 border border-gray-300 rounded-full focus:ring-nalo-green focus:border-nalo-green" id="registerPassword" required>
+                                </div>
+                                <button type="submit" class="w-full py-3 bg-nalo-green text-white font-semibold rounded-full shadow-md hover:bg-nalo-green/90 transition">Crear Cuenta</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        
+        let currentBannerIndex = 0; 
+        let bannerInterval; 
+        
+        function navigateTo(pageId) {
+            document.querySelectorAll('.view-section').forEach(section => {
+                section.classList.remove('active-view');
+            });
+
+            const targetView = document.getElementById(pageId + '-view');
+            if (targetView) {
+                targetView.classList.add('active-view');
+                
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.classList.remove('active-nav');
+                    link.classList.add('text-gray-600', 'hover:text-nalo-green');
+                });
+
+                document.querySelector(`a[data-page="${pageId}"]`)?.classList.add('active-nav');
+                document.querySelector(`a[data-page="${pageId}"]`)?.classList.remove('text-gray-600', 'hover:text-nalo-green');
+
+            } else {
+                alertMessage(`Error: Vista ${pageId} no encontrada.`, true);
+            }
+        }
+
+        function alertMessage(message, isError = false) {
+            const messageBox = document.getElementById('messageBox');
+            const messageToast = document.getElementById('messageToast');
+            const toastBody = messageToast.querySelector('.toast-body');
+
+            toastBody.textContent = message;
+            
+            if (isError) {
+                messageToast.classList.remove('bg-green-500');
+                messageToast.classList.add('bg-red-600');
+            } else {
+                messageToast.classList.remove('bg-red-600');
+                messageToast.classList.add('bg-green-500');
+            }
+
+            messageBox.style.display = 'block';
+            
+            setTimeout(() => { messageBox.style.display = 'none'; }, 4000);
+        }
+
+        function searchNearMe(query) {
+            alertMessage("Solicitando permiso de geolocalización...", false); 
+            
+            if ("geolocation" in navigator) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const lat = position.coords.latitude;
+                        const lon = position.coords.longitude;
+                        alertMessage(`✅ Ubicación encontrada: Latitud ${lat.toFixed(4)}, Longitud ${lon.toFixed(4)}. Buscando "${query}" cerca...`);
+                    },
+                    (error) => {
+                        let errorMessage = 'Error de geolocalización. ';
+                        switch(error.code) {
+                            case error.PERMISSION_DENIED:
+                                errorMessage += "Permiso denegado por el usuario. No podemos buscar cerca de ti.";
+                                break;
+                            case error.POSITION_UNAVAILABLE:
+                                errorMessage += "Información de ubicación no disponible.";
+                                break;
+                            case error.TIMEOUT:
+                                errorMessage += "La solicitud expiró.";
+                                break;
+                            default:
+                                errorMessage += "Un error desconocido ocurrió.";
+                                break;
+                        }
+                        alertMessage(errorMessage, true);
+                    },
+                    {
+                        enableHighAccuracy: true,
+                        timeout: 5000,
+                        maximumAge: 0
+                    }
+                );
+            } else {
+                alertMessage("Tu navegador no soporta la geolocalización.", true);
+            }
+        }
+
+        function goToBanner(index) {
+            const track = document.getElementById('carouselTrack');
+            const banners = track.querySelectorAll('.banner-item');
+            const dotsContainer = document.getElementById('banner-dots');
+            
+            if (banners.length === 0) return;
+
+            if (index >= banners.length) {
+                index = 0;
+            } else if (index < 0) {
+                index = banners.length - 1;
+            }
+            
+            currentBannerIndex = index;
+
+            const offset = currentBannerIndex * 100;
+            track.style.transform = `translateX(-${offset}%)`;
+            track.style.transition = 'transform 0.5s ease-in-out'; 
+            
+            dotsContainer.querySelectorAll('.dot').forEach((dot, idx) => {
+                dot.classList.remove('bg-white');
+                dot.classList.add('bg-gray-400');
+                if (idx === currentBannerIndex) {
+                    dot.classList.remove('bg-gray-400');
+                    dot.classList.add('bg-white');
+                }
+            });
+            
+            clearInterval(bannerInterval);
+            bannerInterval = setInterval(nextBanner, 5000); 
+        }
+
+        function prevBanner() {
+            goToBanner(currentBannerIndex - 1);
+        }
+
+        function nextBanner() {
+            goToBanner(currentBannerIndex + 1);
+        }
+        
+        const mobileSearchWrapper = document.getElementById('mobileSearchWrapper');
+        if (mobileSearchWrapper) {
+            mobileSearchWrapper.classList.add('show');
+        }
+
+        
+        function generateBannerDots() {
+            const track = document.getElementById('carouselTrack');
+            const banners = track.querySelectorAll('.banner-item');
+            const dotsContainer = document.getElementById('banner-dots');
+            
+            if (banners.length <= 1) return; 
+            
+            dotsContainer.innerHTML = '';
+            banners.forEach((_, index) => {
+                const dot = document.createElement('span');
+                dot.classList.add('dot', 'w-3', 'h-3', 'rounded-full', 'bg-gray-400', 'cursor-pointer', 'transition-colors');
+                dot.setAttribute('data-index', index);
+                dot.addEventListener('click', () => goToBanner(index));
+                dotsContainer.appendChild(dot);
+            });
+          
+            goToBanner(0);
+        }
+
+
+       
+        function toggleOffcanvas(id) {
+            const offcanvas = document.getElementById(id);
+            const backdrop = document.getElementById('offcanvas-backdrop');
+            const isShown = offcanvas.classList.toggle('show');
+            backdrop.classList.toggle('show', isShown);
+            document.body.style.overflow = isShown ? 'hidden' : ''; 
+        }
+        
+      
+        function showModal(id) {
+            const modal = document.getElementById(id);
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden'; 
+        }
+
+     
+        function hideModal(id) {
+            const modal = document.getElementById(id);
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = '';
+        }
+
+       
+        function closeModalOnBackdrop(event) {
+            if (event.target === event.currentTarget) {
+                hideModal('authModal');
+            }
+        }
+
+       
+        function switchAuthTab(button) {
+            const target = button.getAttribute('data-target');
+
+         
+            document.querySelectorAll('.tab-panel').forEach(panel => {
+                panel.classList.add('hidden');
+                panel.classList.remove('active-panel');
+            });
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active-tab', 'border-nalo-green', 'text-gray-800');
+                btn.classList.add('text-gray-500');
+            });
+
+            
+            document.getElementById(target).classList.remove('hidden');
+            document.getElementById(target).classList.add('active-panel');
+            button.classList.add('active-tab', 'border-nalo-green', 'text-gray-800');
+            button.classList.remove('text-gray-500');
+        }
+
+      
+        function handleAuth(type) {
+            if (type === 'login') {
+                const email = document.getElementById('loginEmail').value;
+                const password = document.getElementById('loginPassword').value;
+
+                if (email && password) {
+                    hideModal('authModal');
+                    alertMessage(`¡Bienvenido de nuevo, amigo Emprendedor! Iniciando sesión con: ${email}`);
+                } else {
+                    alertMessage('Por favor, ingresa correo y contraseña para iniciar sesión.', true);
+                }
+            } else if (type === 'register') {
+                const name = document.getElementById('registerName').value;
+                const email = document.getElementById('registerEmail').value;
+                
+                if (name && email) {
+                    hideModal('authModal');
+                    alertMessage(`¡Registro exitoso! Gracias por unirte a Mercatto, ${name}.`);
+                } else {
+                    alertMessage('Por favor, completa todos los campos para registrarte.', true);
+                }
+            }
+        }
+        
+        
+        function handleSearchClick(e) {
+            e.preventDefault();
+            const queryDesktop = document.getElementById('searchInput').value;
+            const queryMobile = document.getElementById('searchInputMobile').value;
+           
+            const query = queryDesktop || queryMobile || 'todos los negocios';
+            searchNearMe(query);
+            
+          
+            document.getElementById('searchInput').value = query;
+            if(document.getElementById('searchInputMobile')) {
+                 document.getElementById('searchInputMobile').value = query;
+            }
+            navigateTo('home');
+        }
+
+        
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            
+            document.querySelectorAll('a[data-page]').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const pageId = e.currentTarget.getAttribute('data-page');
+                    const category = e.currentTarget.getAttribute('data-category');
+
+                    
+                    if (pageId === 'search' && category) {
+                     
+                        document.getElementById('searchInput').value = category;
+                        if(document.getElementById('searchInputMobile')) {
+                             document.getElementById('searchInputMobile').value = category;
+                        }
+                        alertMessage(`Cargando emprendimientos de la categoría: ${category}...`);
+                        navigateTo('home');
+                    } else {
+                        navigateTo(pageId);
+                    }
+                    
+                    
+                    const offcanvas = document.getElementById('offcanvasNavbar');
+                    if (offcanvas.classList.contains('show')) {
+                        toggleOffcanvas('offcanvasNavbar');
+                    }
+                });
+            });
+
+       
+            document.querySelectorAll('.category-card').forEach(card => {
+                card.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const category = e.currentTarget.getAttribute('data-category');
+                    
+                   
+                    document.getElementById('searchInput').value = category;
+                    if(document.getElementById('searchInputMobile')) {
+                         document.getElementById('searchInputMobile').value = category;
+                    }
+                    alertMessage(`Cargando emprendimientos de la categoría: ${category}...`);
+                    navigateTo('home');
+                });
+            });
+
+           
+            document.getElementById('searchNearMeBtn')?.addEventListener('click', handleSearchClick);
+            
+           
+            document.getElementById('searchNearMeBtnMobile')?.addEventListener('click', (e) => {
+                e.preventDefault();
+                const query = document.getElementById('searchInputMobile').value || 'todos los negocios';
+                searchNearMe(query);
+               
+                document.getElementById('searchInput').value = document.getElementById('searchInputMobile').value;
+                navigateTo('home');
+            });
+            
+            
+            document.getElementById('searchInput')?.addEventListener('input', (e) => {
+                if(document.getElementById('searchInputMobile')) {
+                    document.getElementById('searchInputMobile').value = e.target.value;
+                }
+            });
+            
+           
+            document.getElementById('searchInputMobile')?.addEventListener('input', (e) => {
+                document.getElementById('searchInput').value = e.target.value;
+            });
+
+
+            document.querySelector('.tab-button[data-target="login-panel"]').click();
+
+            generateBannerDots();
+            
+            document.querySelector('a[data-page="home"]').click();
+        });
+        
+    </script>
+</body>
+</html>
