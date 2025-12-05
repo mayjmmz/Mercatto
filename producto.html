@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html class="dark" lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Perfil del Emprendedor</title>
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+    
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
+        }
+    </style>
+    
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class", 
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#E2725B", // Terracotta (Color principal)
+                        "background-light": "#F5F5F5",
+                        "background-dark": "#1a1a1a",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#2c2c2c",
+                        "text-light": "#333333",
+                        "text-dark": "#f0f0f0",
+                        "text-muted-light": "#666666",
+                        "text-muted-dark": "#a0a0a0",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.75rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-text-light dark:text-text-dark">
+    <div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+        <div class="layout-container flex h-full grow flex-col">
+            
+            <header class="flex items-center justify-between whitespace-nowrap border-b border-text-light/10 dark:border-text-dark/10 px-4 sm:px-6 md:px-10 py-4 bg-surface-light dark:bg-surface-dark sticky top-0 z-50">
+                <div class="flex items-center gap-8">
+                    <div class="flex items-center gap-3 text-text-light dark:text-text-dark">
+                        <span class="material-symbols-outlined text-primary text-3xl">storefront</span>
+                        <h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">Mercatto</h2>
+                    </div>
+                </div>
+                <nav class="hidden md:flex items-center gap-8">
+                    <a class="text-sm font-medium leading-normal hover:text-primary" href="#">Categorías</a>
+                    <a class="text-sm font-medium leading-normal hover:text-primary" href="#">Novedades</a>
+                    <a class="text-sm font-medium leading-normal hover:text-primary" href="#">Ofertas</a>
+                    <a class="text-sm font-medium leading-normal hover:text-primary" href="#">Nosotros</a>
+                </nav>
+                <div class="flex items-center gap-4">
+                    <button class="flex cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 w-10 bg-background-light dark:bg-background-dark hover:bg-primary/20 transition-colors">
+                        <span class="material-symbols-outlined">search</span>
+                    </button>
+                    <button class="flex cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 w-10 bg-background-light dark:bg-background-dark hover:bg-primary/20 transition-colors">
+                        <span class="material-symbols-outlined">favorite</span>
+                    </button>
+                    <button class="flex cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 w-10 bg-background-light dark:bg-background-dark hover:bg-primary/20 transition-colors">
+                        <span class="material-symbols-outlined">shopping_bag</span>
+                    </button>
+                    <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="User profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB3-ileTVn7sVhmW7E5gqWCXMO18I65kYTFKsgpfBljBzMBdLBfwwV-TlOt6-9MKO0M3xFKHe3XL2GvYH-ZTxQbIWk4g2XuhkFPpKKU7-XiypsWavdnSBBq1wcE68eEJTthh0JdZmLyY-6FH1GhfgbTpRGlPSG_Rg3iBr1SbjQsVPbQRQl3M34XJMOPR05NpM--BFYhUrT9FWG0nXGAjfDmpcXmxJwIY0IPIuIJk6G1bE2qtmqLqCHTQZIQj8GT6YEEKqVmFzBR7EtA");'></div>
+                </div>
+            </header>
+            
+            <main class="w-full">
+                <div class="w-full h-64 md:h-80 bg-cover bg-center" style="background-image: url('https://raw.githubusercontent.com/mayjmmz/Mercatto/main/ban_natural.jpeg');">
+                    <div class="w-full h-full bg-black/40"></div>
+                </div>
+                
+                <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex flex-col md:flex-row gap-8 -mt-20 md:-mt-24 items-end">
+                        
+                        <div class="relative flex-shrink-0">
+                            <div class="size-40 md:size-48 rounded-full bg-cover bg-center border-4 border-surface-light dark:border-surface-dark" style="background-image: url('https://raw.githubusercontent.com/mayjmmz/Mercatto/main/Gemini_Generated_Image_9hy2gx9hy2gx9hy2.png');"></div>
+                            <div class="absolute bottom-2 right-2 flex items-center gap-1 bg-green-500/20 text-green-500 text-xs font-bold px-2 py-1 rounded-full border border-green-500/30">
+                                <span class="w-2 h-2 rounded-full bg-green-500"></span>
+                                <span>Verificado</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex-grow flex flex-col md:flex-row justify-between items-start md:items-end gap-4 pb-4 w-full">
+                            <div>
+                                <h1 class="text-3xl md:text-4xl font-black text-text-light dark:text-text-dark">Natural Flame</h1>
+                                <p class="text-text-muted-light dark:text-text-muted-dark mt-1">Velas aromaticas y decorativas • Desde 2023</p>
+                                <div class="flex items-center gap-4 mt-3 text-text-muted-light dark:text-text-muted-dark">
+                                    <div class="flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1">star</span>
+                                        <span class="font-bold text-sm text-text-light dark:text-text-dark">4.9</span>
+                                        <span class="text-sm">(125 reseñas)</span>
+                                    </div>
+                                    <div class="flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-base">sell</span>
+                                        <span class="text-sm">3,200 ventas</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center gap-3">
+                                <a class="flex items-center justify-center size-10 rounded-full border border-text-light/20 dark:border-text-dark/20 text-text-muted-light dark:text-text-muted-dark hover:bg-primary/10 hover:text-primary transition-colors" href="#">
+                                    <svg class="feather feather-instagram" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><rect height="20" rx="5" ry="5" width="20" x="2" y="2"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
+                                </a>
+                                <a class="flex items-center justify-center size-10 rounded-full border border-text-light/20 dark:border-text-dark/20 text-text-muted-light dark:text-text-muted-dark hover:bg-primary/10 hover:text-primary transition-colors" href="#">
+                                    <svg class="feather feather-facebook" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                                </a>
+                                <a class="flex items-center justify-center size-10 rounded-full border border-text-light/20 dark:border-text-dark/20 text-text-muted-light dark:text-text-muted-dark hover:bg-primary/10 hover:text-primary transition-colors" href="#">
+                                    <svg class="feather feather-globe" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10"></circle><line x1="2" x2="22" y1="12" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                                </a>
+                                <button id="contact-btn" class="ml-2 flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-primary text-white font-bold text-sm hover:bg-opacity-90 transition-colors">
+                                    <span class="material-symbols-outlined text-lg">mail</span>
+                                    <span>Contactar</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="border-b border-text-light/10 dark:border-text-dark/10 mt-6">
+                        <nav aria-label="Tabs" class="-mb-px flex gap-6">
+                            <a id="tab-productos" data-tab="productos" class="tab-link whitespace-nowrap border-b-2 border-primary px-1 pb-4 text-sm font-medium text-primary cursor-pointer" href="#">Productos</a>
+                            <a id="tab-historia" data-tab="historia" class="tab-link whitespace-nowrap border-b-2 border-transparent px-1 pb-4 text-sm font-medium text-text-muted-light dark:text-text-muted-dark hover:border-text-muted-light/50 dark:hover:border-text-muted-dark/50 hover:text-text-light dark:hover:text-text-dark cursor-pointer" href="#">Nuestra Historia</a>
+                            <a id="tab-galeria" data-tab="galeria" class="tab-link whitespace-nowrap border-b-2 border-transparent px-1 pb-4 text-sm font-medium text-text-muted-light dark:text-text-muted-dark hover:border-text-muted-light/50 dark:hover:border-text-muted-dark/50 hover:text-text-light dark:hover:text-text-dark cursor-pointer" href="#">Galería</a>
+                            <a id="tab-reviews" data-tab="reviews" class="tab-link whitespace-nowrap border-b-2 border-transparent px-1 pb-4 text-sm font-medium text-text-muted-light dark:text-text-muted-dark hover:border-text-muted-light/50 dark:hover:border-text-muted-dark/50 hover:text-text-light dark:hover:text-text-dark cursor-pointer" href="#">Reseñas</a>
+                        </nav>
+                    </div>
+                </div>
+                
+                <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+                    
+                    <div id="content-productos" class="tab-content grid grid-cols-1 md:grid-cols-4 gap-8">
+                        
+                        <aside class="md:col-span-1">
+                            <h3 class="font-bold text-lg">Categorías</h3>
+                            <ul class="space-y-3 mt-4 text-text-muted-light dark:text-text-muted-dark">
+                                <li><a class="hover:text-primary" href="#">Todos los productos (22)</a></li>
+                                <li><a class="hover:text-primary" href="#">Decorativas (8)</a></li>
+                                <li><a class="hover:text-primary" href="#">Envaces (3)</a></li>
+                                <li><a class="hover:text-primary" href="#">Wallets (3)</a></li>
+                                <li><a class="hover:text-primary" href="#">Para eventos (4)</a></li>
+                                <li><a class="hover:text-primary" href="#">Sets de Regalo (4)</a></li>
+                                <li><a class="hover:text-primary" href="#">Ofertas Especiales (3)</a></li>
+                            </ul>
+                        </aside>
+                        
+                        <div class="md:col-span-3">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                                
+                                <div class="flex flex-col group">
+                                    <div class="relative overflow-hidden rounded-lg">
+                                        <div class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg" data-alt="Handmade ceramic mug with a speckled glaze finish" style='background-image: url("https://raw.githubusercontent.com/mayjmmz/Mercatto/b839a7842d2c5650c7dd8ebea01d9896edb182e3/terrario.jpeg");'></div>
+                                        <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                        <button class="favorite-toggle absolute top-3 right-3 flex items-center justify-center size-9 bg-surface-light/80 dark:bg-surface-dark/80 rounded-full text-text-light dark:text-text-dark hover:bg-primary hover:text-white transition-colors">
+                                            <span class="material-symbols-outlined text-xl" data-filled="true">favorite</span> 
+                                        </button>
+                                    </div>
+                                    <div class="pt-4">
+                                        <h3 class="text-lg font-bold text-text-light dark:text-text-dark group-hover:text-primary transition-colors">Terrario</h3>
+                                        <div class="flex items-center gap-1 mt-1">
+                                            <span class="material-symbols-outlined text-yellow-500 text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+                                            <span class="text-sm text-text-muted-light dark:text-text-muted-dark">4.7 (14 reseñas)</span>
+                                        </div>
+                                        <p class="mt-2 text-lg font-bold text-primary">$43.000</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex flex-col group">
+                                    <div class="relative overflow-hidden rounded-lg">
+                                        <div class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg" data-alt="Handcrafted ceramic plate with a unique blue glaze" style='background-image: url("https://raw.githubusercontent.com/mayjmmz/Mercatto/main/Burbuja.jpeg");'></div>
+                                        <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                        <button class="favorite-toggle absolute top-3 right-3 flex items-center justify-center size-9 bg-surface-light/80 dark:bg-surface-dark/80 rounded-full text-text-light dark:text-text-dark hover:bg-primary hover:text-white transition-colors">
+                                            <span class="material-symbols-outlined text-xl" data-filled="false">favorite_border</span>
+                                        </button>
+                                    </div>
+                                    <div class="pt-4">
+                                        <h3 class="text-lg font-bold text-text-light dark:text-text-dark group-hover:text-primary transition-colors">Burbujas</h3>
+                                        <div class="flex items-center gap-1 mt-1">
+                                            <span class="material-symbols-outlined text-yellow-500 text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+                                            <span class="text-sm text-text-muted-light dark:text-text-muted-dark">4.9 (21 reseñas)</span>
+                                        </div>
+                                        <p class="mt-2 text-lg font-bold text-primary">$20.000</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex flex-col group">
+                                    <div class="relative overflow-hidden rounded-lg">
+                                        <div class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg" data-alt="A set of four ceramic coasters with intricate patterns" style='background-image: url("https://raw.githubusercontent.com/mayjmmz/Mercatto/main/portavaso_yeso.jpeg");'></div>
+                                        <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                        <button class="favorite-toggle absolute top-3 right-3 flex items-center justify-center size-9 bg-surface-light/80 dark:bg-surface-dark/80 rounded-full text-text-light dark:text-text-dark hover:bg-primary hover:text-white transition-colors">
+                                            <span class="material-symbols-outlined text-xl" data-filled="false">favorite_border</span>
+                                        </button>
+                                    </div>
+                                    <div class="pt-4">
+                                        <h3 class="text-lg font-bold text-text-light dark:text-text-dark group-hover:text-primary transition-colors">Portavelas yeso</h3>
+                                        <div class="flex items-center gap-1 mt-1">
+                                            <span class="material-symbols-outlined text-yellow-500 text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+                                            <span class="text-sm text-text-muted-light dark:text-text-muted-dark">5.0 (8 reseñas)</span>
+                                        </div>
+                                        <p class="mt-2 text-lg font-bold text-primary">$10.000</p>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col group">
+                                    <div class="relative overflow-hidden rounded-lg">
+                                        <div class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg" style='background-image: url("https://raw.githubusercontent.com/mayjmmz/Mercatto/main/set_astract.jpeg");'></div>
+                                        <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                        <button class="favorite-toggle absolute top-3 right-3 flex items-center justify-center size-9 bg-surface-light/80 dark:bg-surface-dark/80 rounded-full text-text-light dark:text-text-dark hover:bg-primary hover:text-white transition-colors">
+                                            <span class="material-symbols-outlined text-xl" data-filled="false">favorite_border</span>
+                                        </button>
+                                    </div>
+                                    <div class="pt-4">
+                                        <h3 class="text-lg font-bold text-text-light dark:text-text-dark group-hover:text-primary transition-colors">Set "Astrat"</h3>
+                                        <div class="flex items-center gap-1 mt-1">
+                                            <span class="material-symbols-outlined text-yellow-500 text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+                                            <span class="text-sm text-text-muted-light dark:text-text-muted-dark">4.8 (35 reseñas)</span>
+                                        </div>
+                                        <p class="mt-2 text-lg font-bold text-primary">$50.000</p>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col group">
+                                    <div class="relative overflow-hidden rounded-lg">
+                                        <div class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg" style='background-image: url("https://raw.githubusercontent.com/mayjmmz/Mercatto/main/para_eventos.jpeg");'></div>
+                                        <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                        <button class="favorite-toggle absolute top-3 right-3 flex items-center justify-center size-9 bg-surface-light/80 dark:bg-surface-dark/80 rounded-full text-text-light dark:text-text-dark hover:bg-primary hover:text-white transition-colors">
+                                            <span class="material-symbols-outlined text-xl" data-filled="true">favorite</span>
+                                        </button>
+                                    </div>
+                                    <div class="pt-4">
+                                        <h3 class="text-lg font-bold text-text-light dark:text-text-dark group-hover:text-primary transition-colors">Para eventos</h3>
+                                        <div class="flex items-center gap-1 mt-1">
+                                            <span class="material-symbols-outlined text-yellow-500 text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+                                            <span class="text-sm text-text-muted-light dark:text-text-muted-dark">4.9 (19 reseñas)</span>
+                                        </div>
+                                        <p class="mt-2 text-lg font-bold text-primary">$10.000</p>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col group">
+                                    <div class="relative overflow-hidden rounded-lg">
+                                        <div class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg" style='background-image: url("https://raw.githubusercontent.com/mayjmmz/Mercatto/main/selva_negra.jpeg");'></div>
+                                        <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                        <button class="favorite-toggle absolute top-3 right-3 flex items-center justify-center size-9 bg-surface-light/80 dark:bg-surface-dark/80 rounded-full text-text-light dark:text-text-dark hover:bg-primary hover:text-white transition-colors">
+                                            <span class="material-symbols-outlined text-xl" data-filled="false">favorite_border</span>
+                                        </button>
+                                    </div>
+                                    <div class="pt-4">
+                                        <h3 class="text-lg font-bold text-text-light dark:text-text-dark group-hover:text-primary transition-colors">Selva negra</h3>
+                                        <div class="flex items-center gap-1 mt-1">
+                                            <span class="material-symbols-outlined text-yellow-500 text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+                                            <span class="text-sm text-text-muted-light dark:text-text-muted-dark">4.7 (11 reseñas)</span>
+                                        </div>
+                                        <p class="mt-2 text-lg font-bold text-primary">$25.000</p>
+                                    </div>
+                                </div>
+
+                            </div>
+                            
+                            <div class="mt-12 flex justify-center">
+                                <nav aria-label="Pagination">
+                                    <ul class="flex items-center -space-x-px h-10 text-base">
+                                        <li>
+                                            <a class="flex items-center justify-center px-4 h-10 ms-0 leading-tight text-text-muted-light dark:text-text-muted-dark bg-surface-light dark:bg-surface-dark border border-text-light/20 dark:border-text-dark/20 rounded-s-lg hover:bg-primary/10 hover:text-primary" href="#">
+                                                <span class="sr-only">Previous</span>
+                                                <svg aria-hidden="true" class="w-3 h-3 rtl:rotate-180" fill="none" viewBox="0 0 6 10" xmlns="http://www.w3.org/2000/svg"><path d="M5 1 1 5l4 4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a aria-current="page" class="z-10 flex items-center justify-center px-4 h-10 leading-tight text-white bg-primary border border-primary hover:bg-primary/90" href="#">1</a>
+                                        </li>
+                                        <li>
+                                            <a class="flex items-center justify-center px-4 h-10 leading-tight text-text-muted-light dark:text-text-muted-dark bg-surface-light dark:bg-surface-dark border border-text-light/20 dark:border-text-dark/20 hover:bg-primary/10 hover:text-primary" href="#">2</a>
+                                        </li>
+                                        <li>
+                                            <a class="flex items-center justify-center px-4 h-10 leading-tight text-text-muted-light dark:text-text-muted-dark bg-surface-light dark:bg-surface-dark border border-text-light/20 dark:border-text-dark/20 hover:bg-primary/10 hover:text-primary" href="#">3</a>
+                                        </li>
+                                        <li>
+                                            <a class="flex items-center justify-center px-4 h-10 leading-tight text-text-muted-light dark:text-text-muted-dark bg-surface-light dark:bg-surface-dark border border-text-light/20 dark:border-text-dark/20 rounded-e-lg hover:bg-primary/10 hover:text-primary" href="#">
+                                                <span class="sr-only">Next</span>
+                                                <svg aria-hidden="true" class="w-3 h-3 rtl:rotate-180" fill="none" viewBox="0 0 6 10" xmlns="http://www.w3.org/2000/svg"><path d="m1 9 4-4-4-4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="content-historia" class="tab-content hidden p-8 bg-surface-light dark:bg-surface-dark rounded-lg shadow-lg">
+                        <h3 class="text-xl font-bold mb-4">Nuestra Historia</h3>
+                        <p class="text-text-muted-light dark:text-text-muted-dark">"Natural FlameCO" nació de un momento de calma y creatividad, transformando un simple hobby en un propósito. Creemos en la magia de los detalles y en el poder de un aroma que transforma cualquier espacio en un santuario personal.</p>
+                        <h3 class="text-x1 font-bold mb-4">¿Por que comprar en Natural Flame?</h3>
+                        <p class="text-text-muted-light dark:text-text-muted-dark">Aquí en Natural Flame, creemos que el bienestar y el respeto por el planeta van de la mano. Nacemos de la pasión por crear ambientes cálidos y aromáticos sin comprometer la salud ni el medio ambiente, nos especializamos en velas para todo tipo de evento y de temporada, comprometidos a ofrecerte la mejor calidad y precio. Decimos **NO a la parafina**. Nuestras velas son 100% artesanales, elaboradas meticulosamente con cera de **soja y otras ceras vegetales premium**. Elegimos estos materiales por su combustión limpia, lenta y su origen renovable, asegurando una experiencia aromática pura y sostenible.</p>
+                    </div>
+                    <div id="content-galeria" class="tab-content hidden p-8 bg-surface-light dark:bg-surface-dark rounded-lg shadow-lg">
+                        <h3 class="text-xl font-bold mb-4">Galería de Imágenes</h3>
+                        <p class="text-text-muted-light dark:text-text-muted-dark">Aquí se mostraría una cuadrícula de fotos de nuestro proceso, taller y productos en acción.</p>
+                    </div>
+                    <div id="content-reviews" class="tab-content hidden p-8 bg-surface-light dark:bg-surface-dark rounded-lg shadow-lg">
+                        <h3 class="text-xl font-bold mb-4">Reseñas de Clientes</h3>
+                        <p class="text-text-muted-light dark:text-text-muted-dark">"¡Me encanta mi nuevo portavelas de yeso que tambien es perfecto para mis anillos! Súper recomendable." - Ana R. (4.9/5 estrellas).</p>
+                    </div>
+                    
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- 1. FUNCIONALIDAD DE FAVORITOS (Corazones en Productos) ---
+            const favoriteButtons = document.querySelectorAll('.favorite-toggle');
+
+            favoriteButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Selecciona el <span> del ícono dentro del botón
+                    const icon = button.querySelector('.material-symbols-outlined');
+                    // Obtiene el estado actual (si está lleno o no)
+                    const isFilled = icon.getAttribute('data-filled') === 'true';
+
+                    if (isFilled) {
+                        // Si está lleno, cambiar a vacío
+                        icon.textContent = 'favorite_border'; // Cambia el símbolo
+                        icon.setAttribute('data-filled', 'false'); // Actualiza el estado
+                        icon.style.fontVariationSettings = "'FILL' 0"; // Asegura el estilo vacío
+                    } else {
+                        // Si está vacío, cambiar a lleno
+                        icon.textContent = 'favorite'; // Cambia el símbolo
+                        icon.setAttribute('data-filled', 'true'); // Actualiza el estado
+                        icon.style.fontVariationSettings = "'FILL' 1"; // Asegura el estilo lleno
+                    }
+                });
+            });
+
+            // --- 2. FUNCIONALIDAD DE PESTAÑAS (Tabs) ---
+            const tabLinks = document.querySelectorAll('.tab-link');
+            const tabContents = document.querySelectorAll('.tab-content');
+            const primaryColor = 'text-primary'; // Clase de color para la pestaña activa
+            const primaryBorder = 'border-primary'; // Clase de borde para la pestaña activa
+
+            tabLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetTabId = link.getAttribute('data-tab');
+
+                    // 1. Desactivar todas las pestañas
+                    tabLinks.forEach(t => {
+                        t.classList.remove(primaryColor, primaryBorder);
+                        t.classList.add('border-transparent', 'text-text-muted-light', 'dark:text-text-muted-dark');
+                    });
+
+                    // 2. Ocultar todos los contenidos
+                    tabContents.forEach(c => {
+                        c.classList.add('hidden');
+                    });
+
+                    // 3. Activar la pestaña clicada
+                    link.classList.add(primaryColor, primaryBorder);
+                    link.classList.remove('border-transparent', 'text-text-muted-light', 'dark:text-text-muted-dark');
+                    
+                    // 4. Mostrar el contenido correspondiente
+                    const activeContent = document.getElementById(`content-${targetTabId}`);
+                    if (activeContent) {
+                        activeContent.classList.remove('hidden');
+                    }
+                });
+            });
+
+            // --- 3. FUNCIONALIDAD DEL BOTÓN CONTACTAR ---
+            const contactBtn = document.getElementById('contact-btn');
+            
+            contactBtn.addEventListener('click', () => {
+                // Simulación de la acción de contacto (podría abrir un modal o enlazar a un formulario)
+                alert("Has iniciado el contacto con Manos Creativas. Se abriría un modal de chat o un formulario de correo.");
+            });
+
+        });
+    </script>
+</body>
+
+</html>
