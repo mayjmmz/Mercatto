@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html class="dark" lang="es" style="scroll-behavior: smooth;">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    
+    <meta name="description" content="Mercatto - La plataforma líder para descubrir y apoyar emprendimientos locales. Encuentra artesanías, gastronomía y servicios únicos.">
+    <meta name="author" content="Mercatto">
+    <meta property="og:title" content="Mercatto | Emprendimientos Locales">
+    <meta property="og:description" content="Descubre lo mejor del talento local en un solo lugar.">
+    <meta property="og:image" content="https://i.ibb.co/68nL59k/burgers-unsplash.webp">
+    <meta property="og:type" content="website">
+
+    <title>Mercatto | Emprendimientos Locales</title>
+    
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f2a60d",
+                        "background-light": "#f8f7f5",
+                        "background-dark": "#221c10",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+    
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .toggle-switch-input:checked + .toggle-switch-label .toggle-switch-ball {
+            transform: translateX(20px);
+        }
+        /* Animación suave para el filtrado */
+        .entrepreneur-card {
+            transition: all 0.3s ease-in-out;
+        }
+        .entrepreneur-card.hidden {
+            display: none;
+        }
+        /* Animación de entrada */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark transition-colors duration-300">
+    <div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+        
+        <button id="back-to-top" class="fixed bottom-6 right-6 z-50 bg-primary text-background-dark p-3 rounded-full shadow-lg opacity-0 invisible transition-all duration-300 hover:bg-primary/80" aria-label="Volver arriba">
+            <span class="material-symbols-outlined">arrow_upward</span>
+        </button>
+
+        <div class="layout-container flex h-full grow flex-col">
+            <div class="px-4 sm:px-8 md:px-20 lg:px-40 flex flex-1 justify-center py-5">
+                <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+                    
+                    <header class="flex flex-wrap items-center justify-between whitespace-nowrap border-b border-solid border-primary/20 dark:border-[#493c22] px-4 sm:px-10 py-3 relative z-20">
+                        <div class="flex items-center gap-4 lg:gap-8">
+                            <button id="mobile-menu-btn" class="lg:hidden text-gray-800 dark:text-white">
+                                <span class="material-symbols-outlined">menu</span>
+                            </button>
+                            <a href="#" class="flex items-center gap-2 text-gray-800 dark:text-white no-underline mr-8">
+                                <span class="material-symbols-outlined text-3xl text-primary">storefront</span>
+                                <h2 class="text-gray-800 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Mercatto</h2>
+                            </a>
+                        </div>
+                        
+                        <div class="hidden lg:flex items-center gap-10">
+                            <a class="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal transition-colors" href="#categorias">Categorías</a>
+                            <a class="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal transition-colors" href="#emprendedores">Emprendedores</a>
+                            <a class="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal transition-colors" href="#contacto">Contacto</a>
+                        </div>
+                        
+                        <div class="flex flex-1 justify-end gap-2 sm:gap-2 items-center">
+                            <div class="flex items-center space-x-2 mr-2">
+                                <span class="material-symbols-outlined text-gray-800 dark:text-[#cbb790] text-sm">light_mode</span>
+                                <label for="dark-mode-toggle" class="relative inline-block w-10 h-6 rounded-full bg-gray-400 dark:bg-[#493c22] cursor-pointer toggle-switch-label transition duration-200 ease-in-out">
+                                    <input type="checkbox" id="dark-mode-toggle" class="sr-only toggle-switch-input" checked/>
+                                    <span class="absolute left-0 top-0 w-6 h-6 bg-primary rounded-full transition-transform duration-200 ease-in-out transform translate-x-4 toggle-switch-ball"></span>
+                                </label>
+                                <span class="material-symbols-outlined text-gray-800 dark:text-[#cbb790] text-sm">dark_mode</span>
+                            </div>
+                            
+                            <div class="flex gap-2">
+                                <button class="hidden sm:flex min-w-fit cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-primary text-background-dark text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/80 transition-colors">
+                                    <span class="truncate">Registrarse</span>
+                                </button>
+                                <button class="hidden sm:flex cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-gray-200 dark:bg-[#493c22] text-gray-800 dark:text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-gray-300 dark:hover:bg-[#5a4a2b] transition-colors">
+                                    <span class="truncate">Iniciar Sesión</span>
+                                </button>
+                            </div>
+                        </div>
+                    </header>
+                    
+                    <section class="relative w-full h-[50vh] min-h-[400px] bg-cover bg-center flex items-center justify-center rounded-b-lg shadow-xl mb-12" style="background-image: url('https://images.unsplash.com/photo-1542838132-92a101f375f4?q=80&w=2000&auto=format&fit=crop');">
+                        <div class="absolute inset-0 bg-black/50 rounded-b-lg"></div>
+                        <div class="relative z-10 text-center p-6 max-w-2xl">
+                            <h1 class="text-white text-4xl sm:text-5xl font-extrabold leading-tight tracking-[-0.03em] mb-4">
+                                Descubre el Talento Local
+                            </h1>
+                            <p class="text-gray-200 text-lg sm:text-xl font-medium mb-8">
+                                Encuentra productos únicos y apoya a los mejores emprendedores de tu ciudad.
+                            </p>
+                            <a href="#emprendedores" class="inline-flex min-w-fit cursor-pointer items-center justify-center overflow-hidden rounded-full h-12 px-8 bg-primary text-background-dark text-lg font-bold leading-normal tracking-[0.015em] hover:bg-primary/80 transition-colors shadow-lg">
+                                Explorar Emprendimientos
+                            </a>
+                        </div>
+                    </section>
+
+                    <div id="mobile-menu" class="hidden lg:hidden flex-col gap-4 p-4 bg-white/95 dark:bg-[#221c10]/95 border-b border-primary/20 absolute top-[70px] left-0 w-full z-10 shadow-lg">
+                        <a class="text-gray-800 dark:text-white font-medium p-2 hover:bg-gray-100 dark:hover:bg-[#2c2516] rounded" href="#categorias">Categorías</a>
+                        <a class="text-gray-800 dark:text-white font-medium p-2 hover:bg-gray-100 dark:hover:bg-[#2c2516] rounded" href="#emprendedores">Emprendedores</a>
+                        <a class="text-gray-800 dark:text-white font-medium p-2 hover:bg-gray-100 dark:hover:bg-[#2c2516] rounded" href="#contacto">Contacto</a>
+                        <div class="h-px bg-gray-200 dark:bg-gray-700 my-2"></div>
+                        <button class="w-full h-10 bg-primary text-background-dark font-bold rounded-full">Registrarse</button>
+                        <button class="w-full h-10 bg-gray-200 dark:bg-[#493c22] text-gray-800 dark:text-white font-bold rounded-full">Iniciar Sesión</button>
+                    </div>
+
+                    <main class="flex flex-col gap-8 md:gap-12">
+                        
+                        <section class="mt-8">
+                            <div class="bg-white/50 dark:bg-[#342b18] p-6 rounded-lg shadow-sm">
+                                <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-4">¿Qué estás buscando hoy?</h2>
+                                <form id="advanced-search-form" class="space-y-4">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                                        <div class="relative">
+                                            <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"><span class="material-symbols-outlined text-gray-500 dark:text-[#cbb790]">search</span></div>
+                                            <input class="form-input block w-full rounded-full border-0 bg-gray-200 dark:bg-[#493c22] py-2.5 pl-10 pr-3 text-gray-800 dark:text-white placeholder:text-gray-500 dark:placeholder:text-[#cbb790] focus:ring-2 focus:ring-primary/80" id="keyword" placeholder="Palabra clave..." type="text"/>
+                                        </div>
+                                        <div class="relative">
+                                            <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"><span class="material-symbols-outlined text-gray-500 dark:text-[#cbb790]">category</span></div>
+                                            <select class="form-select block w-full rounded-full border-0 bg-gray-200 dark:bg-[#493c22] py-2.5 pl-10 pr-8 text-gray-800 dark:text-white focus:ring-2 focus:ring-primary/80" id="search-category">
+                                                <option value="">Todas las Categorías</option>
+                                                <option value="gastronomia">Artesanías y manualidades</option>
+                                                <option value="artesanias">Belleza</option>
+                                                <option value="moda-local">Moda Local</option>
+                                                <option value="moda-local">Cafe y arte</option>
+                                                <option value="servicios">Servicios</option>
+                                            </select>
+                                        </div>
+                                        <div class="relative">
+                                            <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"><span class="material-symbols-outlined text-gray-500 dark:text-[#cbb790]">location_on</span></div>
+                                            <input class="form-input block w-full rounded-full border-0 bg-gray-200 dark:bg-[#493c22] py-2.5 pl-10 pr-3 text-gray-800 dark:text-white placeholder:text-gray-500 dark:placeholder:text-[#cbb790] focus:ring-2 focus:ring-primary/80" id="location" placeholder="Ciudad / Barrio" type="text"/>
+                                        </div>
+                                        <div class="relative">
+                                            <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"><span class="material-symbols-outlined text-gray-500 dark:text-[#cbb790]">paid</span></div>
+                                            <select class="form-select block w-full rounded-full border-0 bg-gray-200 dark:bg-[#493c22] py-2.5 pl-10 pr-8 text-gray-800 dark:text-white focus:ring-2 focus:ring-primary/80" id="price">
+                                                <option value="">Cualquier Precio</option>
+                                                <option value="$">$ Económico</option>
+                                                <option value="$$">$$ Moderado</option>
+                                                <option value="$$$">$$$ Premium</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="flex justify-end">
+                                        <button type="submit" class="flex min-w-[120px] items-center justify-center rounded-full h-10 px-6 bg-primary text-background-dark text-sm font-bold hover:bg-primary/80 transition-transform active:scale-95">Buscar</button>
+                                    </div>
+                                </form>
+                                <div id="search-results" class="mt-4 p-3 bg-primary/10 rounded-lg text-center text-gray-800 dark:text-[#cbb790] hidden border border-primary/20"></div>
+                            </div>
+                        </section>
+                        
+                        <section class="w-full">
+                             <h2 class="text-gray-800 dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Ofertas y Novedades</h2>
+                            <div class="flex overflow-x-auto snap-x snap-mandatory space-x-4 [-ms-scrollbar-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden p-4">
+                                <div class="flex h-full flex-1 flex-col gap-4 rounded-lg bg-white/50 dark:bg-[#342b18] shadow-sm min-w-72 max-w-72 snap-center hover:shadow-md transition-shadow">
+                                    <div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg" style='background-image: url("https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=1000&auto=format&fit=crop");'></div>
+                                    <div class="flex flex-col flex-1 justify-between p-4 pt-0 gap-4">
+                                        <div>
+                                            <p class="text-gray-900 dark:text-white text-base font-medium">Cappuccino o Latte y torta (Chocolate, red velvet)</p>
+                                            <p class="text-gray-600 dark:text-[#cbb790] text-sm">2x1 todos los jueves en Cafe Parchao.</p>
+                                        </div>
+                                        <button class="detail-button flex w-full items-center justify-center rounded-full h-10 bg-gray-200 dark:bg-[#493c22] text-gray-800 dark:text-white font-bold text-sm hover:bg-primary hover:text-background-dark transition-colors">Ver Oferta</button>
+                                    </div>
+                                </div>
+                                <div class="flex h-full flex-1 flex-col gap-4 rounded-lg bg-white/50 dark:bg-[#342b18] shadow-sm min-w-72 max-w-72 snap-center hover:shadow-md transition-shadow">
+                                    <div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg" style='background-image: url("https://images.unsplash.com/photo-1606293926075-69a00dbfde81?q=80&w=1000&auto=format&fit=crop");'></div>
+                                    <div class="flex flex-col flex-1 justify-between p-4 pt-0 gap-4">
+                                        <div>
+                                            <p class="text-gray-900 dark:text-white text-base font-medium">Vela Postre</p>
+                                            <p class="text-gray-600 dark:text-[#cbb790] text-sm">Nueva colección Natural Flame.</p>
+                                        </div>
+                                        <button class="detail-button flex w-full items-center justify-center rounded-full h-10 bg-gray-200 dark:bg-[#493c22] text-gray-800 dark:text-white font-bold text-sm hover:bg-primary hover:text-background-dark transition-colors">Ver Colección</button>
+                                    </div>
+                                </div>
+                                <div class="flex h-full flex-1 flex-col gap-4 rounded-lg bg-white/50 dark:bg-[#342b18] shadow-sm min-w-72 max-w-72 snap-center hover:shadow-md transition-shadow">
+                                    <div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg" style='background-image: url("https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=1000&auto=format&fit=crop");'></div>
+                                    <div class="flex flex-col flex-1 justify-between p-4 pt-0 gap-4">
+                                        <div>
+                                            <p class="text-gray-900 dark:text-white text-base font-medium">Moda Sostenible</p>
+                                            <p class="text-gray-600 dark:text-[#cbb790] text-sm">Descuentos en prendas seleccionadas.</p>
+                                        </div>
+                                        <button class="detail-button flex w-full items-center justify-center rounded-full h-10 bg-gray-200 dark:bg-[#493c22] text-gray-800 dark:text-white font-bold text-sm hover:bg-primary hover:text-background-dark transition-colors">Saber Más</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        
+                        <section id="categorias">
+                            <div class="flex items-center justify-between px-4 pb-3 pt-5">
+                                <h2 class="text-gray-800 dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em]">Explorar por Categoría</h2>
+                                <button id="reset-filters" class="hidden text-sm font-bold text-primary hover:underline">Ver Todos</button>
+                            </div>
+                            
+                            <div class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4">
+                                <div class="category-filter relative bg-cover bg-center flex flex-col gap-3 rounded-lg justify-end p-4 aspect-square group cursor-pointer overflow-hidden transition-transform hover:scale-[1.02]" data-filter="gastronomia" style='background-image: url("https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1000&auto=format&fit=crop");'>
+                                    <div class="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition-colors duration-300"></div>
+                                    <p class="relative text-white text-base font-bold leading-tight w-4/5 line-clamp-2">Artesanías y manualidades</p>
+                                </div>
+                                <div class="category-filter relative bg-cover bg-center flex flex-col gap-3 rounded-lg justify-end p-4 aspect-square group cursor-pointer overflow-hidden transition-transform hover:scale-[1.02]" data-filter="artesanias" style='background-image: url("https://images.unsplash.com/photo-1459411552884-841db9b3cc2a?q=80&w=1000&auto=format&fit=crop");'>
+                                    <div class="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition-colors duration-300"></div>
+                                    <p class="relative text-white text-base font-bold leading-tight w-4/5 line-clamp-2">Belleza</p>
+                                </div>
+                                <div class="category-filter relative bg-cover bg-center flex flex-col gap-3 rounded-lg justify-end p-4 aspect-square group cursor-pointer overflow-hidden transition-transform hover:scale-[1.02]" data-filter="moda-local" style='background-image: url("https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?q=80&w=1000&auto=format&fit=crop");'>
+                                    <div class="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition-colors duration-300"></div>
+                                    <p class="relative text-white text-base font-bold leading-tight w-4/5 line-clamp-2">Moda Local</p>
+                                </div>
+                                <div class="category-filter relative bg-cover bg-center flex flex-col gap-3 rounded-lg justify-end p-4 aspect-square group cursor-pointer overflow-hidden transition-transform hover:scale-[1.02]" data-filter="servicios" style='background-image: url("https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=1000&auto=format&fit=crop");'>
+                                    <div class="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition-colors duration-300"></div>
+                                    <p class="relative text-white text-base font-bold leading-tight w-4/5 line-clamp-2">Cafe y arte</p>
+                                </div>
+                                <div class="category-filter relative bg-cover bg-center flex flex-col gap-3 rounded-lg justify-end p-4 aspect-square group cursor-pointer overflow-hidden transition-transform hover:scale-[1.02]" data-filter="servicios" style='background-image: url("https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=1000&auto=format&fit=crop");'>
+                                    <div class="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition-colors duration-300"></div>
+                                    <p class="relative text-white text-base font-bold leading-tight w-4/5 line-clamp-2">Servicios</p>
+                                </div>
+                            </div>
+                            <div id="filter-status" class="px-4 text-center text-primary font-medium hidden">Mostrando resultados para: <span id="current-category" class="font-bold"></span></div>
+                        </section>
+                        
+                        <section id="emprendedores">
+                            <h2 class="text-gray-800 dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Nuestros Emprendedores Destacados</h2>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4" id="entrepreneurs-grid">
+                                
+                                <div class="entrepreneur-card flex flex-col gap-4 rounded-lg bg-white/50 dark:bg-[#342b18] p-4 shadow-sm transition-all hover:shadow-lg hover:-translate-y-1" data-category="gastronomia">
+                                    <div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg" style='background-image: url("https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=1000&auto=format&fit=crop");'>
+                                        <div class="m-2 px-2 py-1 bg-black/60 text-white text-xs rounded w-fit">Cafe y arte</div>
+                                    </div>
+                                    <div class="flex flex-col gap-1">
+                                        <h3 class="text-gray-900 dark:text-white text-lg font-bold">Café Parchao</h3>
+                                        <p class="text-gray-600 dark:text-[#cbb790] text-sm">El mejor café de especialidad de la ciudad.</p>
+                                    </div>
+                                    <div class="flex items-center gap-1 text-primary">
+                                        <span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">star</span>
+                                        <span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">star</span>
+                                        <span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">star</span>
+                                        <span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">star</span>
+                                        <span class="material-symbols-outlined text-base">star_half</span>
+                                        <span class="text-gray-500 dark:text-gray-400 text-xs ml-1">(124)</span>
+                                    </div>
+                                    <button class="detail-button-entrepreneur mt-auto w-full h-10 rounded-full bg-primary text-background-dark font-bold text-sm hover:opacity-90">Ver Emprendimiento</button>
+                                </div>
+                                
+                                <div class="entrepreneur-card flex flex-col gap-4 rounded-lg bg-white/50 dark:bg-[#342b18] p-4 shadow-sm transition-all hover:shadow-lg hover:-translate-y-1" data-category="artesanias">
+                                    <div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg" style='background-image: url("https://images.unsplash.com/photo-1605218427368-35b8496c8130?q=80&w=1000&auto=format&fit=crop");'>
+                                        <div class="m-2 px-2 py-1 bg-black/60 text-white text-xs rounded w-fit">Artesanías y manualidades</div>
+                                    </div>
+                                    <div class="flex flex-col gap-1">
+                                        <h3 class="text-gray-900 dark:text-white text-lg font-bold">Natural FlameCo</h3>
+                                        <p class="text-gray-600 dark:text-[#cbb790] text-sm">Velas aromaticas y decorativas hechas con cera natural.</p>
+                                    </div>
+                                    <div class="flex items-center gap-1 text-primary">
+                                        <span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">star</span>
+                                        <span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">star</span>
+                                        <span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">star</span>
+                                        <span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">star</span>
+                                        <span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">star</span>
+                                        <span class="text-gray-500 dark:text-gray-400 text-xs ml-1">(98)</span>
+                                    </div>
+                                    <button class="detail-button-entrepreneur mt-auto w-full h-10 rounded-full bg-primary text-background-dark font-bold text-sm hover:opacity-90">Ver Emprendimiento</button>
+                                </div>
+                                
+                                <div class="entrepreneur-card flex flex-col gap-4 rounded-lg bg-white/50 dark:bg-[#342b18] p-4 shadow-sm transition-all hover:shadow-lg hover:-translate-y-1" data-category="gastronomia">
+                                    <div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg" style='background-image: url("https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=1000&auto=format&fit=crop");'>
+                                        <div class="m-2 px-2 py-1 bg-black/60 text-white text-xs rounded w-fit">Belleza</div>
+                                    </div>
+                                    <div class="flex flex-col gap-1">
+                                        <h3 class="text-gray-900 dark:text-white text-lg font-bold">Spa La Espiga</h3>
+                                        <p class="text-gray-600 dark:text-[#cbb790] text-sm">Un lugar para relajarse y ponerte bella.</p>
+                                    </div>
+                                    <div class="flex items-center gap-1 text-primary">
+                                        <span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">star</span>
+                                        <span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">star</span>
+                                        <span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">star</span>
+                                        <span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">star</span>
+                                        <span class="material-symbols-outlined text-base">star</span>
+                                        <span class="text-gray-500 dark:text-gray-400 text-xs ml-1">(150)</span>
+                                    </div>
+                                    <button class="detail-button-entrepreneur mt-auto w-full h-10 rounded-full bg-primary text-background-dark font-bold text-sm hover:opacity-90">Ver Emprendimiento</button>
+                                </div>
+
+                                <div class="entrepreneur-card flex flex-col gap-4 rounded-lg bg-white/50 dark:bg-[#342b18] p-4 shadow-sm transition-all hover:shadow-lg hover:-translate-y-1" data-category="moda-local">
+                                    <div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg" style='background-image: url("https://images.unsplash.com/photo-1558769132-cb1aea458c5e?q=80&w=1000&auto=format&fit=crop");'>
+                                        <div class="m-2 px-2 py-1 bg-black/60 text-white text-xs rounded w-fit">Moda Local</div>
+                                    </div>
+                                    <div class="flex flex-col gap-1">
+                                        <h3 class="text-gray-900 dark:text-white text-lg font-bold">Moda Urbana</h3>
+                                        <p class="text-gray-600 dark:text-[#cbb790] text-sm">Diseños únicos y sostenibles.</p>
+                                    </div>
+                                    <div class="flex items-center gap-1 text-primary">
+                                        <span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">star</span>
+                                        <span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">star</span>
+                                        <span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">star</span>
+                                        <span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">star</span>
+                                        <span class="material-symbols-outlined text-base">star_border</span>
+                                        <span class="text-gray-500 dark:text-gray-400 text-xs ml-1">(45)</span>
+                                    </div>
+                                    <button class="detail-button-entrepreneur mt-auto w-full h-10 rounded-full bg-primary text-background-dark font-bold text-sm hover:opacity-90">Ver Emprendimiento</button>
+                                </div>
+                                
+                                <div class="entrepreneur-card flex flex-col gap-4 rounded-lg bg-white/50 dark:bg-[#342b18] p-4 shadow-sm transition-all hover:shadow-lg hover:-translate-y-1" data-category="servicios">
+                                    <div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg" style='background-image: url("https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=1000&auto=format&fit=crop");'>
+                                        <div class="m-2 px-2 py-1 bg-black/60 text-white text-xs rounded w-fit">Servicios</div>
+                                    </div>
+                                    <div class="flex flex-col gap-1">
+                                        <h3 class="text-gray-900 dark:text-white text-lg font-bold">TechSolutions</h3>
+                                        <p class="text-gray-600 dark:text-[#cbb790] text-sm">Reparación y consultoría tecnológica.</p>
+                                    </div>
+                                    <div class="flex items-center gap-1 text-primary">
+                                        <span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">star</span>
+                                        <span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">star</span>
+                                        <span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">star</span>
+                                        <span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">star</span>
+                                        <span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">star</span>
+                                        <span class="text-gray-500 dark:text-gray-400 text-xs ml-1">(210)</span>
+                                    </div>
+                                    <button class="detail-button-entrepreneur mt-auto w-full h-10 rounded-full bg-primary text-background-dark font-bold text-sm hover:opacity-90">Ver Emprendimiento</button>
+                                </div>
+
+                                <div id="no-results-message" class="hidden col-span-full text-center py-10">
+                                    <span class="material-symbols-outlined text-4xl text-gray-400 mb-2">sentiment_dissatisfied</span>
+                                    <p class="text-gray-600 dark:text-gray-400">No hay emprendimientos en esta categoría por el momento.</p>
+                                    <button onclick="resetFilters()" class="text-primary font-bold mt-2 hover:underline">Ver todos los emprendimientos</button>
+                                </div>
+
+                            </div>
+                        </section>
+                        
+                        <section id="contacto" class="p-4">
+                            <div class="bg-white/50 dark:bg-[#342b18] p-8 rounded-lg shadow-sm">
+                                <h2 class="text-2xl font-bold text-gray-800 dark:text-white text-center mb-2">¿Eres un emprendedor? Contáctanos</h2>
+                                <p class="text-gray-600 dark:text-[#cbb790] text-center mb-6">Completa el formulario y nos pondremos en contacto contigo.</p>
+                                
+                                <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+                                <form 
+                                id="entrepreneur-form" 
+                                class="space-y-6" 
+                                action="https://docs.google.com/forms/d/e/1FAIpQLSe0J17QXDUgAIzd1fIl8QUO3541BvNMfk5cXWqVn-hBj6nQmg/formResponse" 
+                                method="POST" 
+                                target="hidden_iframe"
+                                >
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nombre del Emprendedor</label>
+                                        <input name="entry.1928523903" class="form-input block w-full rounded-full border-0 bg-gray-200 dark:bg-[#493c22] py-2.5 px-4 text-gray-800 dark:text-white placeholder:text-gray-500 dark:placeholder:text-[#cbb790] focus:ring-2 focus:ring-primary/80" type="text" required>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nombre del Negocio</label>
+                                        <input name="entry.900289092" class="form-input block w-full rounded-full border-0 bg-gray-200 dark:bg-[#493c22] py-2.5 px-4 text-gray-800 dark:text-white placeholder:text-gray-500 dark:placeholder:text-[#cbb790] focus:ring-2 focus:ring-primary/80" type="text" required>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
+                                        <input name="entry.1573708843" class="form-input block w-full rounded-full border-0 bg-gray-200 dark:bg-[#493c22] py-2.5 px-4 text-gray-800 dark:text-white placeholder:text-gray-500 dark:placeholder:text-[#cbb790] focus:ring-2 focus:ring-primary/80" type="email" required>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Teléfono</label>
+                                        <input name="entry.1066788516" class="form-input block w-full rounded-full border-0 bg-gray-200 dark:bg-[#493c22] py-2.5 px-4 text-gray-800 dark:text-white placeholder:text-gray-500 dark:placeholder:text-[#cbb790] focus:ring-2 focus:ring-primary/80" type="tel">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Cuéntanos sobre tu negocio</label>
+                                    <textarea name="entry.991275431" class="form-textarea block w-full rounded-lg border-0 bg-gray-200 dark:bg-[#493c22] py-2.5 px-4 text-gray-800 dark:text-white placeholder:text-gray-500 dark:placeholder:text-[#cbb790] focus:ring-2 focus:ring-primary/80" rows="4" required></textarea>
+                                </div>
+                                <div class="flex justify-center">
+                                    <button type="submit" class="flex min-w-[150px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-6 bg-primary text-background-dark text-sm font-bold hover:bg-primary/80 transition-transform active:scale-95">
+                                        <span class="truncate">Enviar Solicitud</span>
+                                    </button>
+                                </div>
+                            </form>
+                            <div id="form-message" class="mt-4 text-center text-green-600 dark:text-green-400 hidden font-bold bg-green-100 dark:bg-green-900/30 p-2 rounded"></div>
+                        </div>
+                    </section>
+                        
+                    </main>
+                    
+                    <footer class="mt-8 border-t border-solid border-primary/20 dark:border-[#493c22] px-4 sm:px-10 py-6 text-center text-gray-600 dark:text-gray-400 text-sm">
+                        <p>&copy; 2025 Mercatto. Todos los derechos reservados.</p>
+                        <div class="flex justify-center gap-4 mt-2">
+                            <a href="#" class="hover:text-primary transition-colors">Privacidad</a>
+                            <span class="text-gray-400 dark:text-gray-600">|</span>
+                            <a href="#" class="hover:text-primary transition-colors">Términos</a>
+                        </div>
+                    </footer>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- 1. MODO OSCURO (Persistente) ---
+            const htmlElement = document.documentElement;
+            const darkModeToggle = document.getElementById('dark-mode-toggle');
+            
+            function setTheme(theme) {
+                if (theme === 'dark') {
+                    htmlElement.classList.add('dark');
+                    darkModeToggle.checked = true;
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    htmlElement.classList.remove('dark');
+                    darkModeToggle.checked = false;
+                    localStorage.setItem('theme', 'light');
+                }
+            }
+
+            // Chequear preferencia guardada o del sistema
+            const savedTheme = localStorage.getItem('theme');
+            const sysPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            if (savedTheme) {
+                setTheme(savedTheme);
+            } else {
+                setTheme(sysPrefersDark ? 'dark' : 'light');
+            }
+
+            darkModeToggle.addEventListener('change', () => {
+                setTheme(darkModeToggle.checked ? 'dark' : 'light');
+            });
+            
+            // --- 2. MENÚ MÓVIL (Hamburguesa) ---
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                mobileMenu.classList.toggle('flex');
+            });
+
+            // Cerrar menú al hacer click en un enlace
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                    mobileMenu.classList.remove('flex');
+                });
+            });
+
+            // --- 3. FILTROS DINÁMICOS DE CATEGORÍA ---
+            const categoryFilters = document.querySelectorAll('.category-filter');
+            const entrepreneurCards = document.querySelectorAll('.entrepreneur-card');
+            const filterStatus = document.getElementById('filter-status');
+            const currentCategorySpan = document.getElementById('current-category');
+            const resetBtn = document.getElementById('reset-filters');
+            const noResultsMsg = document.getElementById('no-results-message');
+
+            // Función principal de filtrado
+            function filterCards(category) {
+                let count = 0;
+                
+                entrepreneurCards.forEach(card => {
+                    // Animación de desvanecimiento
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(10px)';
+                    
+                    setTimeout(() => {
+                        if (category === 'all' || card.dataset.category === category) {
+                            card.classList.remove('hidden');
+                            // Pequeño delay para la animación de entrada
+                            setTimeout(() => {
+                                card.style.opacity = '1';
+                                card.style.transform = 'translateY(0)';
+                            }, 50);
+                            count++;
+                        } else {
+                            card.classList.add('hidden');
+                        }
+                    }, 200);
+                });
+
+                // Manejo de UI (Mensajes y Botones)
+                setTimeout(() => {
+                    if (category === 'all') {
+                        filterStatus.classList.add('hidden');
+                        resetBtn.classList.add('hidden');
+                    } else {
+                        // Formatear nombre de categoría para mostrar
+                        const catName = document.querySelector(`.category-filter[data-filter="${category}"] p`).textContent;
+                        currentCategorySpan.textContent = catName;
+                        filterStatus.classList.remove('hidden');
+                        resetBtn.classList.remove('hidden');
+                    }
+                    
+                    // Mostrar mensaje si no hay resultados
+                    if (count === 0) {
+                        noResultsMsg.classList.remove('hidden');
+                    } else {
+                        noResultsMsg.classList.add('hidden');
+                    }
+                }, 200);
+            }
+
+            // Event Listeners para las tarjetas de categoría
+            categoryFilters.forEach(filter => {
+                filter.addEventListener('click', () => {
+                    const category = filter.dataset.filter;
+                    filterCards(category);
+                    // Scroll suave hacia la sección de resultados
+                    document.getElementById('emprendedores').scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+
+            // Resetear filtros
+            window.resetFilters = function() { // Hacerla global para el botón de "no results"
+                filterCards('all');
+            };
+            
+            resetBtn.addEventListener('click', resetFilters);
+
+            // --- 4. BÚSQUEDA AVANZADA (Simulación Visual) ---
+            const searchForm = document.getElementById('advanced-search-form');
+            const searchResults = document.getElementById('search-results');
+
+            searchForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const btn = searchForm.querySelector('button');
+                const originalText = btn.textContent;
+                
+                // Efecto de carga
+                btn.textContent = "Buscando...";
+                btn.disabled = true;
+                btn.classList.add('opacity-70');
+
+                setTimeout(() => {
+                    const keyword = document.getElementById('keyword').value;
+                    const cat = document.getElementById('search-category').value;
+                    
+                    let msg = `🔎 Resultados para: ${keyword ? '"' + keyword + '"' : 'Todo'} `;
+                    if(cat) msg += ` en ${cat}`;
+                    
+                    searchResults.textContent = msg + " (3 resultados encontrados)";
+                    searchResults.classList.remove('hidden', 'fade-in');
+                    void searchResults.offsetWidth; // trigger reflow
+                    searchResults.classList.add('fade-in');
+                    
+                    // Restaurar botón
+                    btn.textContent = originalText;
+                    btn.disabled = false;
+                    btn.classList.remove('opacity-70');
+                }, 800);
+            });
+
+           // --- 5. CONTACTO (Conexión Real con Google Forms) ---
+            const contactForm = document.getElementById('entrepreneur-form');
+            const formMsg = document.getElementById('form-message');
+            let submitted = false; // Variable para controlar el estado
+
+            // Detectamos cuando el usuario le da enviar
+            contactForm.addEventListener('submit', () => {
+                submitted = true;
+                const btn = contactForm.querySelector('button');
+                btn.innerHTML = '<span class="material-symbols-outlined animate-spin text-sm mr-2">progress_activity</span> Enviando...';
+            });
+
+            // El truco: Detectamos cuando el Iframe oculto termina de cargar (significa que Google respondió)
+            document.getElementById('hidden_iframe').onload = function() {
+                if (submitted) {
+                    const btn = contactForm.querySelector('button');
+                    
+                    // Mostrar mensaje de éxito
+                    formMsg.textContent = "¡Recibido! Tus datos están seguros en nuestra base de datos.";
+                    formMsg.classList.remove('hidden');
+                    
+                    // Limpiar formulario y restaurar botón
+                    contactForm.reset();
+                    btn.innerHTML = '<span class="truncate">Enviar Solicitud</span>';
+                    submitted = false; // Resetear estado
+                    
+                    // Ocultar mensaje después de 5 segundos
+                    setTimeout(() => { formMsg.classList.add('hidden'); }, 5000);
+                }
+            };
+
+            // --- 6. BOTÓN VOLVER ARRIBA ---
+            const backToTopBtn = document.getElementById('back-to-top');
+            
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    backToTopBtn.classList.remove('opacity-0', 'invisible');
+                } else {
+                    backToTopBtn.classList.add('opacity-0', 'invisible');
+                }
+            });
+
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+            
+            // --- 7. BOTONES DE DETALLE (Alertas) ---
+            document.querySelectorAll('.detail-button, .detail-button-entrepreneur').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    // Evitar que el clic en el botón dispare el clic de la tarjeta (si está anidado)
+                    e.stopPropagation(); 
+                    const title = this.closest('div').querySelector('p.font-medium, h3')?.textContent || "Item";
+                    alert(`Ir a página de detalles de: ${title}`);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
